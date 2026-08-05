@@ -264,7 +264,7 @@ body.ready .lm-in{transform:translateY(0)}
 .works-sub:first-of-type{margin-top:0}
 .works-sub .w-count{font-family:var(--fb);font-size:11.5px;font-weight:800;background:var(--ink);color:var(--sun);border-radius:999px;padding:3px 10px}
 .games-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
-.game-card{display:flex;flex-direction:column;gap:5px;background:var(--card);border:2px solid var(--ink);border-radius:18px;padding:16px;text-decoration:none;box-shadow:4px 4px 0 rgba(34,37,74,.13);transition:transform .2s,box-shadow .2s;min-height:150px}
+.game-card{display:flex;flex-direction:column;gap:5px;background:var(--card);border:2px solid var(--ink);border-radius:18px;padding:16px;text-decoration:none;text-align:left;box-shadow:4px 4px 0 rgba(34,37,74,.13);transition:transform .2s,box-shadow .2s;min-height:150px}
 .game-card:hover{transform:translate(-2px,-4px);box-shadow:7px 8px 0 rgba(124,58,237,.3)}
 .game-card .g-ico{width:44px;height:44px;border-radius:13px;background:var(--paper2);border:2px solid var(--ink);display:grid;place-items:center;font-size:21px;margin-bottom:6px}
 .game-card h3{font-size:14.5px;line-height:1.25}
@@ -361,7 +361,11 @@ footer::before{content:"";position:absolute;top:-13px;left:0;right:0;height:26px
 .lightbox img{max-width:min(92vw,940px);max-height:68vh;border:4px solid #fff;border-radius:8px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
 .lb-frame{width:min(92vw,900px);aspect-ratio:16/9;background:#000;border-radius:12px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.5)}
 .lb-frame.short{width:min(64vw,330px);aspect-ratio:9/16;border-radius:18px}
+.lb-frame.web{width:min(94vw,980px);aspect-ratio:4/3;background:var(--card)}
 .lb-frame iframe{width:100%;height:100%;border:0;display:block}
+.lb-open{display:none;align-items:center;gap:8px;background:var(--sun);border:2px solid var(--ink);border-radius:12px;padding:10px 18px;font-family:var(--fd);font-weight:700;font-size:12.5px;color:var(--ink);text-decoration:none;box-shadow:3px 3px 0 var(--ink)}
+.lb-open.show{display:inline-flex}
+.lb-open:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
 .lb-cap{color:var(--paper);font-family:var(--fh);font-size:25px;font-weight:700;text-align:center}
 .lb-count{color:rgba(251,245,234,.6);font-size:12.5px;font-weight:700;letter-spacing:.1em}
 .lb-btn{position:absolute;background:var(--sun);border:2px solid var(--ink);border-radius:12px;width:46px;height:46px;font-size:19px;font-weight:800;display:grid;place-items:center}
@@ -597,7 +601,7 @@ footer::before{content:"";position:absolute;top:-13px;left:0;right:0;height:26px
       <div class="games-grid reveal" id="gamesGrid"></div>
       <p class="works-sub reveal">🎬 Мультики участников <span class="w-count">7 видео</span></p>
       <div class="video-grid reveal" id="videoGrid"></div>
-      <p class="works-note reveal">Реальные проекты прошлого потока: нажмите на мультик, чтобы посмотреть, - игры и сайты открываются по ссылкам.</p>
+      <p class="works-note reveal">Реальные проекты прошлого потока: нажмите на проект или мультик, чтобы открыть его в модальном окне. Выйти можно кнопкой ✕ или клавишей Esc.</p>
     </div>
   </section>
 
@@ -698,7 +702,8 @@ footer::before{content:"";position:absolute;top:-13px;left:0;right:0;height:26px
   <button class="lb-btn lb-close" id="lbClose" aria-label="Закрыть">✕</button>
   <button class="lb-btn lb-prev" id="lbPrev" aria-label="Предыдущее">←</button>
   <img id="lbImg" src="" alt="">
-  <div class="lb-frame" id="lbFrameWrap" hidden><iframe id="lbFrame" title="Видео" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+  <div class="lb-frame" id="lbFrameWrap" hidden><iframe id="lbFrame" title="Просмотр" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="no-referrer" allowfullscreen></iframe></div>
+  <a class="lb-open" id="lbOpen" href="#" target="_blank" rel="noopener">Открыть в новой вкладке ↗</a>
   <p class="lb-cap" id="lbCap"></p>
   <span class="lb-count" id="lbCount"></span>
   <button class="lb-btn lb-next" id="lbNext" aria-label="Следующее">→</button>
@@ -841,7 +846,7 @@ function renderAll(){
       </div>
     </article>`).join('');
   $('#hsGallery').innerHTML = CAMP_DATA.gallery.map((g,i)=>`<button class="polaroid" type="button" style="--rot:${g.rot}" data-idx="${i}" aria-label="Открыть фото: ${g.cap}"><span class="ph"><img src="${g.src}" alt="${g.alt}" loading="lazy" decoding="async" data-gpx></span><figcaption>${g.cap}</figcaption></button>`).join('');
-  $('#gamesGrid').innerHTML = CAMP_DATA.games.map(g=>`<a class="game-card tilt" href="${g.url}" target="_blank" rel="noopener"><span class="g-ico" aria-hidden="true">${g.ico}</span><h3>${g.name}</h3><span class="g-type">${g.type}</span><span class="g-open">Открыть ↗</span></a>`).join('');
+  $('#gamesGrid').innerHTML = CAMP_DATA.games.map((g,i)=>`<button class="game-card tilt" type="button" data-game="${i}" aria-label="Открыть: ${g.name}"><span class="g-ico" aria-hidden="true">${g.ico}</span><h3>${g.name}</h3><span class="g-type">${g.type}</span><span class="g-open">Смотреть</span></button>`).join('');
   $('#videoGrid').innerHTML = CAMP_DATA.videos.map((v,i)=>`<button class="video-tile" type="button" data-vid="${i}" aria-label="Смотреть: ${v.title}"><img src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" alt="${v.title} - превью" loading="lazy" decoding="async"><span class="v-play" aria-hidden="true">▶</span><span class="v-tag">${v.short?'YouTube Shorts':'YouTube'}</span></button>`).join('');
   $('#hsReviews').innerHTML = CAMP_DATA.reviews.map((r,i)=>`
     <article class="chat-card reveal" style="--rot:${i%2?'1.4deg':'-1.4deg'};transition-delay:${(i%3)*70}ms">
@@ -1028,10 +1033,10 @@ function initFaq(){
   }));
 }
 function initLightbox(){
-  const lb=$('#lightbox'), img=$('#lbImg'), frameWrap=$('#lbFrameWrap'), frame=$('#lbFrame'), cap=$('#lbCap'), cnt=$('#lbCount');
+  const lb=$('#lightbox'), img=$('#lbImg'), frameWrap=$('#lbFrameWrap'), frame=$('#lbFrame'), cap=$('#lbCap'), cnt=$('#lbCount'), openBtn=$('#lbOpen');
   if(!lb) return;
-  let mode='photo', gIdx=0, vIdx=0, tx=null;
-  const stopVideo=()=>{ frameWrap.hidden=true; frame.src='about:blank'; };
+  let mode='photo', gIdx=0, vIdx=0, gmIdx=0, tx=null;
+  const stopVideo=()=>{ frameWrap.hidden=true; frameWrap.classList.remove('web'); frame.src='about:blank'; if(openBtn) openBtn.classList.remove('show'); };
   const showPhoto=i=>{
     mode='photo'; gIdx=(i+CAMP_DATA.gallery.length)%CAMP_DATA.gallery.length;
     const g=CAMP_DATA.gallery[gIdx];
@@ -1046,11 +1051,21 @@ function initLightbox(){
     frame.src=`https://www.youtube-nocookie.com/embed/${v.id}?autoplay=1&rel=0`;
     cap.textContent=v.title; cnt.textContent=(vIdx+1)+' / '+CAMP_DATA.videos.length;
   };
+  const showGame=i=>{
+    mode='game'; gmIdx=(i+CAMP_DATA.games.length)%CAMP_DATA.games.length;
+    const g=CAMP_DATA.games[gmIdx];
+    img.hidden=true; img.src=''; frameWrap.hidden=false;
+    frameWrap.classList.remove('short'); frameWrap.classList.add('web');
+    frame.src=g.url;
+    cap.textContent=g.name; cnt.textContent=(gmIdx+1)+' / '+CAMP_DATA.games.length;
+    openBtn.href=g.url; openBtn.classList.add('show');
+  };
   const open=()=>{ lb.classList.add('open'); document.body.style.overflow='hidden'; $('#lbClose').focus(); };
   const close=()=>{ lb.classList.remove('open'); document.body.style.overflow=''; stopVideo(); };
-  const step=d=>{ if(mode==='photo') showPhoto(gIdx+d); else showVideo(vIdx+d); };
+  const step=d=>{ if(mode==='photo') showPhoto(gIdx+d); else if(mode==='video') showVideo(vIdx+d); else showGame(gmIdx+d); };
   $$('.polaroid').forEach(p=>p.addEventListener('click',()=>{ showPhoto(+p.dataset.idx); open(); }));
   $$('.video-tile').forEach(t=>t.addEventListener('click',()=>{ showVideo(+t.dataset.vid); open(); }));
+  $$('.game-card').forEach(t=>t.addEventListener('click',()=>{ showGame(+t.dataset.game); open(); }));
   $('#lbClose').addEventListener('click',close);
   $('#lbPrev').addEventListener('click',()=>step(-1));
   $('#lbNext').addEventListener('click',()=>step(1));
