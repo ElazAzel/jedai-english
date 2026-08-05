@@ -1153,9 +1153,13 @@ function initParallax(){
   let tick=false;
   const run=()=>{ tick=false; const vh=innerHeight, vw=innerWidth;
     els.forEach(el=>{ const r=(el.parentElement||el).getBoundingClientRect(); el.style.transform=`translate3d(0,${(r.top+r.height/2-vh/2)*parseFloat(el.dataset.px)}px,0)`; });
-    gpx.forEach(img=>{ const host=img.closest('.polaroid'); if(!host) return; const r=host.getBoundingClientRect(); const off=(r.left+r.width/2-vw/2); img.style.transform=`translateX(${off*-0.07}px) scale(1.12)`; });
+    gpx.forEach(img=>{ const host=img.closest('.polaroid'); if(!host) return; const r=host.getBoundingClientRect();
+      const off=(r.left+r.width/2-vw/2);
+      if(Math.abs(off)>vw){ if(img.style.transform) img.style.transform=''; return; }
+      img.style.transform=`translateX(${off*-0.07}px) scale(1.12)`; });
   };
   addEventListener('scroll',()=>{ if(!tick){ tick=true; requestAnimationFrame(run); } },{passive:true});
+  $$('.hscroll').forEach(h=>h.addEventListener('scroll',()=>{ if(!tick){ tick=true; requestAnimationFrame(run); } },{passive:true}));
   run();
 }
 function initTilt(){
