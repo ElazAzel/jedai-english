@@ -1094,19 +1094,20 @@ function initCursor(){
   const glow = document.createElement('div');
   glow.id = 'cursorGlow';
   document.body.appendChild(glow);
-  let x=innerWidth/2, y=innerHeight/2, tx=x, ty=y, seen=false;
+  let x=innerWidth/2, y=innerHeight/2, tx=x, ty=y, seen=false, running=false;
+  const startLoop=()=>{ if(running) return; running=true; (function loop(){
+    x += (tx-x)*.18; y += (ty-y)*.18;
+    glow.style.transform = `translate(${x}px,${y}px) translate(-50%,-50%)`;
+    requestAnimationFrame(loop);
+  })(); };
   addEventListener('pointermove', e=>{
     tx=e.clientX; ty=e.clientY;
-    if(!seen){ seen=true; x=tx; y=ty; glow.classList.add('on'); }
+    if(!seen){ seen=true; x=tx; y=ty; glow.classList.add('on'); startLoop(); }
+    else if(!running) startLoop();
   },{passive:true});
   document.documentElement.addEventListener('mouseleave', ()=>{ seen=false; glow.classList.remove('on'); });
   const hoverables = 'a,button,.video-tile,.polaroid,.faq-q,.tab,.hs-btn,select,label.consent';
   document.addEventListener('pointerover', e=>{ glow.classList.toggle('big', !!(e.target.closest && e.target.closest(hoverables))); });
-  (function loop(){
-    x += (tx-x)*.18; y += (ty-y)*.18;
-    glow.style.transform = `translate(${x}px,${y}px) translate(-50%,-50%)`;
-    requestAnimationFrame(loop);
-  })();
 }
 
 function initSplash(){
@@ -1135,9 +1136,11 @@ function initScramble(){
   if (reduced) return;
   const el = $('#scrambleTxt'); if(!el) return;
   const fin = el.dataset.text, chars='абвгдежзиклмнопрстуфхцшя★✦';
-  setTimeout(()=>{ let f=0; const iv=setInterval(()=>{ f++; const s=Math.floor((f-4)/2); let out='';
+  const start=()=>{ let f=0; const iv=setInterval(()=>{ f++; const s=Math.floor((f-4)/2); let out='';
     for(let i=0;i<fin.length;i++) out += i<s ? fin[i] : (fin[i]===' ' ? ' ' : chars[Math.random()*chars.length|0]);
-    el.textContent=out; if(s>=fin.length){ clearInterval(iv); el.textContent=fin; } },42); },1000);
+    el.textContent=out; if(s>=fin.length){ clearInterval(iv); el.textContent=fin; } },42); };
+  if('requestIdleCallback' in window){ requestIdleCallback(()=>setTimeout(start,1000),{timeout:2500}); }
+  else setTimeout(start,1000);
 }
 function initParallax(){
   if (reduced) return;
