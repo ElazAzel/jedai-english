@@ -1,4 +1,4 @@
-const CACHE = 'jedai-camp-v1';
+const CACHE = 'jedai-camp-v2';
 const CORE = [
   '/',
   '/index.html',

@@ -34,8 +34,26 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Jedai Camp">
-<link rel="icon" href="assets/logo.png">
-<link rel="apple-touch-icon" href="assets/logo.png">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<!-- Верификация: раскомментируйте и вставьте токены из Google Search Console и Яндекс.Вебмастера -->
+<!-- <meta name="google-site-verification" content="YOUR_GOOGLE_TOKEN"> -->
+<!-- <meta name="yandex-verification" content="YOUR_YANDEX_TOKEN"> -->
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111315547', 'ym');
+
+    ym(111315547, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/111315547" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
 <link rel="preload" as="image" href="assets/hero.jpg" fetchpriority="high">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://img.youtube.com" crossorigin>
@@ -65,7 +83,28 @@
         "https://www.instagram.com/jedai_academy/",
         "https://www.instagram.com/aruzhan_jedai/",
         "https://www.instagram.com/elazart"
-      ]
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "sales",
+        "telephone": "+7-747-070-14-95",
+        "url": "https://wa.me/77470701495",
+        "availableLanguage": ["Russian", "Kazakh"]
+      }
+    },
+    {
+      "@type": "Person",
+      "name": "Аружан Каримова",
+      "jobTitle": "Ментор программы Jedai Camp",
+      "worksFor": { "@id": "https://jedai-english-camp.vercel.app/#org" },
+      "sameAs": ["https://www.instagram.com/aruzhan_jedai/"]
+    },
+    {
+      "@type": "Person",
+      "name": "Ильяс Азелханов",
+      "jobTitle": "Ментор программы Jedai Camp",
+      "worksFor": { "@id": "https://jedai-english-camp.vercel.app/#org" },
+      "sameAs": ["https://www.instagram.com/elazart"]
     },
     {
       "@type": "WebSite",
@@ -84,6 +123,8 @@
       "endDate": "2026-08-14",
       "eventStatus": "https://schema.org/EventScheduled",
       "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "inLanguage": "ru",
+      "audience": { "@type": "PeopleAudience", "suggestedMinAge": 12, "suggestedMaxAge": 15 },
       "location": {
         "@type": "Place",
         "name": "Астана",
@@ -108,6 +149,8 @@
       "endDate": "2026-08-21",
       "eventStatus": "https://schema.org/EventScheduled",
       "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "inLanguage": "ru",
+      "audience": { "@type": "PeopleAudience", "suggestedMinAge": 12, "suggestedMaxAge": 15 },
       "location": {
         "@type": "Place",
         "name": "Алматы",
@@ -356,6 +399,8 @@ body.ready .lm-in{transform:translateY(0)}
 .mentor h3{font-size:16px;line-height:1.25}
 .mentor .role{display:block;color:var(--violet);font-weight:800;font-size:12px;margin:4px 0 6px}
 .mentor-note{font-size:12.5px;color:var(--muted);font-weight:600;line-height:1.45}
+.mentor-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.mentor-tags span{background:var(--paper2);border:1px solid var(--line);border-radius:999px;padding:3px 10px;font-size:11px;font-weight:800;color:var(--ink2)}
 .mentor-insta{display:inline-flex;align-items:center;gap:7px;margin-top:9px;font-size:12px;font-weight:800;color:var(--ink2);text-decoration:none;border-bottom:2px dashed transparent;padding-bottom:1px;transition:color .2s,border-color .2s}
 .mentor-insta svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8;flex:none}
 .mentor-insta:hover{color:var(--violet);border-color:var(--violet)}
@@ -882,10 +927,10 @@ const CAMP_DATA = {
     ['🎨','Творческое мышление'],['🧩','Проектное мышление'],['🚀','Предпринимательское мышление'],['💬','Общение'],
     ['🤝','Командная работа'],['⭐','Лидерство'],['🎤','Публичные выступления']
   ],
-  /* TODO(подтвердить): роли и био менторов */
+  /* TODO(подтвердить): роли, теги и био менторов */
   mentors: [
-    { name:'Аружан Каримова', photo:IMG.aruzhan, role:'Ментор программы', note:'Опыт и специализация - уточняются', insta:'aruzhan_jedai' },
-    { name:'Ильяс Азелханов', photo:IMG.ilyas, role:'Ментор программы', note:'Опыт и специализация - уточняются', insta:'elazart' }
+    { name:'Аружан Каримова', photo:IMG.aruzhan, role:'Ментор программы', note:'Опыт и специализация - уточняются', tags:[], insta:'aruzhan_jedai' },
+    { name:'Ильяс Азелханов', photo:IMG.ilyas, role:'Ментор программы', note:'Опыт и специализация - уточняются', tags:[], insta:'elazart' }
   ],
   gallery: [
     { src:'assets/gallery/g01.jpg', cap:'Момент', rot:'-2deg', alt:'Фото из лагеря' },
@@ -975,6 +1020,7 @@ function renderAll(){
         <h3>${m.name}</h3>
         <span class="role">${m.role}</span>
         <p class="mentor-note">${m.note}</p>
+        ${m.tags&&m.tags.length?`<div class="mentor-tags">${m.tags.map(t=>`<span>${t}</span>`).join('')}</div>`:''}
         ${m.insta ? `<a class="mentor-insta" href="https://www.instagram.com/${m.insta}/" target="_blank" rel="noopener" aria-label="${m.name} в Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.3"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>@${m.insta}</a>` : ''}
       </div>
     </article>`).join('');
@@ -1240,6 +1286,16 @@ function validate(d){ const e={};
   const a=parseInt(d.childAge,10); if(!d.childAge||isNaN(a)||a<12||a>15) e.childAge='Возраст от 12 до 15';
   if(!d.city) e.city='Выберите город'; if(!d.session) e.session='Выберите поток'; if(!d.consent) e.consent='Нужно согласие';
   return e; }
+function getUTM(){
+  try{
+    const raw=localStorage.getItem('jedai_utm');
+    if(raw) return JSON.parse(raw)||{};
+    const p=new URLSearchParams(location.search), utm={};
+    ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(k=>{ const v=p.get(k); if(v) utm[k]=v; });
+    if(Object.keys(utm).length) localStorage.setItem('jedai_utm',JSON.stringify(utm));
+    return utm;
+  }catch(e){ return {}; }
+}
 function buildWaMessage(d){
   const s = CAMP_DATA.sessions.find(x=>x.id===d.city);
   const lines = [
@@ -1250,6 +1306,12 @@ function buildWaMessage(d){
     `🏙 Город: ${s ? s.city : d.city}`,
     `🗓 Поток: ${s ? s.dates+' ('+s.note+')' : d.session}`
   ];
+  const utm=getUTM();
+  if(Object.keys(utm).length){
+    const src=[utm.utm_source,utm.utm_medium].filter(Boolean).join(' / ');
+    const camp=utm.utm_campaign||utm.utm_content||utm.utm_term;
+    lines.push(`📊 Источник: ${src||camp}${camp && src!==camp ? ' / '+camp : ''}`);
+  }
   if (d.comment) lines.push(`💬 Комментарий: ${d.comment}`);
   return lines.join('\n');
 }
@@ -1276,10 +1338,12 @@ function initForm(){
     btn.classList.remove('loading'); btn.disabled=false; $('.btn-label',btn).textContent='💬 Отправить в WhatsApp';
     $('#formSuccess').innerHTML='✅ <b>Заявка готова!</b> Мы открыли WhatsApp с заполненным сообщением - нажмите «Отправить» в мессенджере.<small>Если WhatsApp не открылся, проверьте, что разрешены всплывающие окна для этого сайта.</small>';
     $('#formSuccess').classList.add('show');
+    if(typeof ym==='function') ym(111315547,'reachGoal','lead');
   });
 }
 
 renderAll();
+getUTM();
 initMenu(); initAnchors(); initCursor();
 initSplash(); initReveal(); initCounters(); initScramble(); initParallax();
 initTilt(); initMagnet(); initHeader(); initSpy(); initTickers(); initHScroll();
