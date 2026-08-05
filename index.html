@@ -388,6 +388,13 @@ body.ready .lm-in{transform:translateY(0)}
 .video-tile .v-play{position:absolute;inset:0;margin:auto;width:46px;height:46px;border-radius:50%;background:var(--coral);border:2.5px solid var(--paper);display:grid;place-items:center;color:#fff;font-size:14px;padding-left:3px;box-shadow:0 8px 20px rgba(0,0,0,.35);transition:transform .25s;z-index:2}
 .video-tile:hover .v-play{transform:scale(1.12)}
 .video-tile .v-tag{position:absolute;left:8px;bottom:8px;background:rgba(34,37,74,.88);color:var(--paper);font-size:10.5px;font-weight:800;border-radius:8px;padding:3px 9px;z-index:2}
+.video-player{margin-top:34px;border:2.5px solid var(--ink);border-radius:20px;background:#fff;box-shadow:8px 10px 0 rgba(124,58,237,.18);overflow:hidden}
+.video-player-top{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 16px;background:var(--ink);color:var(--paper)}
+.video-player-title{font-size:14px;font-weight:800;line-height:1.3;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.video-player-close{flex:0 0 auto;width:38px;height:38px;border-radius:12px;background:var(--coral);border:2px solid var(--paper);color:#fff;font-size:16px;font-weight:800;cursor:pointer;transition:transform .2s}
+.video-player-close:hover{transform:rotate(90deg) scale(1.06)}
+.video-player-wrap{position:relative;width:100%;aspect-ratio:16/9;background:#000}
+.video-player-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
 .works-note{margin-top:26px;text-align:center;font-size:14px;color:var(--muted);max-width:680px;margin-inline:auto}
 
 #reviews{background:var(--paper2)}
@@ -720,7 +727,14 @@ footer::before{content:"";position:absolute;top:-13px;left:0;right:0;height:26px
       <div class="games-grid reveal" id="gamesGrid"></div>
       <p class="works-sub reveal">🎬 Мультики участников <span class="w-count">7 видео</span></p>
       <div class="video-grid reveal" id="videoGrid"></div>
-      <p class="works-note reveal">Реальные проекты прошлого потока: нажмите на проект, чтобы открыть его в модальном окне (выход - кнопка ✕ или Esc). Мультики открываются на YouTube в новой вкладке.</p>
+      <div class="video-player reveal" id="videoPlayer" hidden>
+        <div class="video-player-top">
+          <span class="video-player-title" id="videoPlayerTitle"></span>
+          <button class="video-player-close" type="button" id="videoPlayerClose" aria-label="Закрыть видео">✕</button>
+        </div>
+        <div class="video-player-wrap" id="videoPlayerWrap"></div>
+      </div>
+      <p class="works-note reveal">Реальные проекты прошлого потока: нажмите на проект, чтобы открыть его в модальном окне (выход - кнопка ✕ или Esc). Мультики воспроизводятся прямо на странице - нажмите на превью, чтобы включить.</p>
     </div>
   </section>
 
@@ -966,7 +980,7 @@ function renderAll(){
     </article>`).join('');
   $('#hsGallery').innerHTML = CAMP_DATA.gallery.map((g,i)=>`<button class="polaroid" type="button" style="--rot:${g.rot}" data-idx="${i}" aria-label="Открыть фото: ${g.cap}"><span class="ph"><img src="${g.src}" alt="${g.alt}" loading="lazy" decoding="async" data-gpx></span><figcaption>${g.cap}</figcaption></button>`).join('');
   $('#gamesGrid').innerHTML = CAMP_DATA.games.map((g,i)=>`<button class="game-card tilt" type="button" data-game="${i}" aria-label="Открыть: ${g.name}"><span class="g-ico" aria-hidden="true">${g.ico}</span><h3>${g.name}</h3><span class="g-type">${g.type}</span><span class="g-open">Смотреть</span></button>`).join('');
-  $('#videoGrid').innerHTML = CAMP_DATA.videos.map(v=>`<a class="video-tile" href="https://www.youtube.com/watch?v=${v.id}" target="_blank" rel="noopener" aria-label="Смотреть: ${v.title}"><img src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" alt="${v.title} - превью" loading="lazy" decoding="async"><span class="v-play" aria-hidden="true">▶</span><span class="v-tag">${v.short?'YouTube Shorts':'YouTube'}</span></a>`).join('');
+  $('#videoGrid').innerHTML = CAMP_DATA.videos.map((v,i)=>`<button class="video-tile" type="button" data-vid="${i}" aria-label="Смотреть: ${v.title}"><img src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" alt="${v.title} - превью" loading="lazy" decoding="async"><span class="v-play" aria-hidden="true">▶</span><span class="v-tag">${v.short?'YouTube Shorts':'YouTube'}</span></button>`).join('');
   $('#hsReviews').innerHTML = CAMP_DATA.reviews.map((r,i)=>`
     <article class="chat-card reveal" style="--rot:${i%2?'1.4deg':'-1.4deg'};transition-delay:${(i%3)*70}ms">
       <div class="chat-bubble">
@@ -1151,24 +1165,29 @@ function initFaq(){
     if(!open){ btn.setAttribute('aria-expanded','true'); const a=$('#'+btn.getAttribute('aria-controls')); if(a) a.style.maxHeight=a.scrollHeight+'px'; }
   }));
 }
+function initVideoPlayer(){
+  const player=$('#videoPlayer'), wrap=$('#videoPlayerWrap'), title=$('#videoPlayerTitle'), close=$('#videoPlayerClose');
+  if(!player) return;
+  const stop=()=>{ wrap.innerHTML=''; player.hidden=true; };
+  $$('.video-tile').forEach(t=>t.addEventListener('click',()=>{
+    const v=CAMP_DATA.videos[+t.dataset.vid];
+    wrap.innerHTML=`<iframe src="https://www.youtube-nocookie.com/embed/${v.id}?autoplay=1&rel=0&playsinline=1" title="${v.title.replace(/"/g,'&quot;')}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>`;
+    title.textContent=v.title;
+    player.hidden=false;
+    player.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }));
+  close.addEventListener('click',stop);
+}
 function initLightbox(){
   const lb=$('#lightbox'), img=$('#lbImg'), frameWrap=$('#lbFrameWrap'), frame=$('#lbFrame'), cap=$('#lbCap'), cnt=$('#lbCount'), openBtn=$('#lbOpen');
   if(!lb) return;
-  let mode='photo', gIdx=0, vIdx=0, gmIdx=0, tx=null;
+  let mode='photo', gIdx=0, gmIdx=0, tx=null;
   const stopVideo=()=>{ frameWrap.hidden=true; frameWrap.classList.remove('web'); frame.src='about:blank'; if(openBtn) openBtn.classList.remove('show'); };
   const showPhoto=i=>{
     mode='photo'; gIdx=(i+CAMP_DATA.gallery.length)%CAMP_DATA.gallery.length;
     const g=CAMP_DATA.gallery[gIdx];
     stopVideo(); img.hidden=false; img.src=g.src; img.alt=g.alt;
     cap.textContent=g.cap; cnt.textContent=(gIdx+1)+' / '+CAMP_DATA.gallery.length;
-  };
-  const showVideo=i=>{
-    mode='video'; vIdx=(i+CAMP_DATA.videos.length)%CAMP_DATA.videos.length;
-    const v=CAMP_DATA.videos[vIdx];
-    img.hidden=true; img.src=''; frameWrap.hidden=false;
-    frameWrap.classList.toggle('short', !!v.short);
-    frame.src=`https://www.youtube-nocookie.com/embed/${v.id}?autoplay=1&rel=0`;
-    cap.textContent=v.title; cnt.textContent=(vIdx+1)+' / '+CAMP_DATA.videos.length;
   };
   const showGame=i=>{
     mode='game'; gmIdx=(i+CAMP_DATA.games.length)%CAMP_DATA.games.length;
@@ -1181,7 +1200,7 @@ function initLightbox(){
   };
   const open=()=>{ lb.classList.add('open'); document.body.style.overflow='hidden'; $('#lbClose').focus(); };
   const close=()=>{ lb.classList.remove('open'); document.body.style.overflow=''; stopVideo(); };
-  const step=d=>{ if(mode==='photo') showPhoto(gIdx+d); else if(mode==='video') showVideo(vIdx+d); else showGame(gmIdx+d); };
+  const step=d=>{ if(mode==='photo') showPhoto(gIdx+d); else showGame(gmIdx+d); };
   $$('.polaroid').forEach(p=>p.addEventListener('click',()=>{ showPhoto(+p.dataset.idx); open(); }));
   $$('.game-card').forEach(t=>t.addEventListener('click',()=>{ showGame(+t.dataset.game); open(); }));
   $('#lbClose').addEventListener('click',close);
@@ -1264,7 +1283,7 @@ renderAll();
 initMenu(); initAnchors(); initCursor();
 initSplash(); initReveal(); initCounters(); initScramble(); initParallax();
 initTilt(); initMagnet(); initHeader(); initSpy(); initTickers(); initHScroll();
-initDots(); initFaq(); initLightbox(); initFloating(); initPWA(); initForm();
+  initDots(); initFaq(); initVideoPlayer(); initLightbox(); initFloating(); initPWA(); initForm();
 $('#yearNow').textContent = new Date().getFullYear();
 })();
 </script>
