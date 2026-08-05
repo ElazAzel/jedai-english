@@ -171,7 +171,7 @@ body.ready .lm-in{transform:translateY(0)}
 .ticker-track{display:flex;width:max-content;animation:tick 30s linear infinite}
 .ticker--sun .ticker-track{animation-direction:reverse;animation-duration:26s}
 .ticker:hover .ticker-track{animation-play-state:paused}
-.ticker-track span{font-family:var(--fd);font-weight:600;font-size:13px;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;padding:0 13px}
+.ticker-track span,.ticker-track i{font-family:var(--fd);font-weight:600;font-size:13px;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;padding:0 13px}
 .ticker-track i{color:var(--violet);font-style:normal}
 .ticker--sun .ticker-track i{color:var(--coral-dark)}
 @keyframes tick{to{transform:translateX(-50%)}}
@@ -233,6 +233,7 @@ body.ready .lm-in{transform:translateY(0)}
 .mq{overflow:hidden;margin-top:22px;padding:8px 0}
 .mq-track{display:flex;gap:14px;width:max-content;animation:tick 26s linear infinite}
 .mq.rev .mq-track{animation-direction:reverse;animation-duration:30s}
+.mq:hover .mq-track{animation-play-state:paused}
 .mq-chip{white-space:nowrap;border:1.5px solid rgba(251,245,234,.3);border-radius:999px;padding:10px 18px;font-weight:700;font-size:14px}
 .mq-chip b{color:var(--sun);margin-right:8px}
 
@@ -245,6 +246,9 @@ body.ready .lm-in{transform:translateY(0)}
 .mentor h3{font-size:16px;line-height:1.25}
 .mentor .role{display:block;color:var(--violet);font-weight:800;font-size:12px;margin:4px 0 6px}
 .mentor-note{font-size:12.5px;color:var(--muted);font-weight:600;line-height:1.45}
+.mentor-insta{display:inline-flex;align-items:center;gap:7px;margin-top:9px;font-size:12px;font-weight:800;color:var(--ink2);text-decoration:none;border-bottom:2px dashed transparent;padding-bottom:1px;transition:color .2s,border-color .2s}
+.mentor-insta svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8;flex:none}
+.mentor-insta:hover{color:var(--violet);border-color:var(--violet)}
 .mentors-note{text-align:center;margin-top:22px;font-family:var(--fh);font-size:20px;color:var(--muted)}
 
 #gallery{background:var(--paper2)}
@@ -348,6 +352,9 @@ footer::before{content:"";position:absolute;top:-13px;left:0;right:0;height:26px
 .footer-logo{width:150px;filter:brightness(0) invert(1)}
 .f-line{color:rgba(251,245,234,.75);font-size:14px;font-weight:600}
 .f-copy{color:rgba(251,245,234,.5);font-size:12.5px}
+.f-insta{display:inline-flex;align-items:center;gap:9px;color:var(--paper);text-decoration:none;font-weight:700;font-size:13.5px;border:1.5px solid rgba(251,245,234,.35);border-radius:999px;padding:9px 18px;transition:border-color .2s,color .2s,transform .2s}
+.f-insta svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.8}
+.f-insta:hover{border-color:var(--sun);color:var(--sun);transform:translateY(-2px)}
 
 .lightbox{position:fixed;inset:0;background:rgba(24,26,52,.93);z-index:1500;display:none;align-items:center;justify-content:center;padding:28px;flex-direction:column;gap:14px}
 .lightbox.open{display:flex}
@@ -432,10 +439,9 @@ footer::before{content:"";position:absolute;top:-13px;left:0;right:0;height:26px
 
 <!-- ======================================================================
   CONFIRMATION (уточнить у Аружан при возможности):
-  1. Точный возраст участников · 2. Финальная программа (сейчас черновик) ·
-  3. Роли, опыт и вклад менторов · 4. Реальные фото галереи · (заменены на фото из source/)
-  5. Названия и авторы мультфильмов · 6. Новые отзывы родителей (будут ещё).
-  Заявки уходят организаторам в WhatsApp: +7 747 070-14-95.
+  1. Финальная программа (сейчас черновик) · 2. Роли, опыт и вклад менторов ·
+  3. Названия и авторы мультфильмов · 4. Новые отзывы родителей (будут ещё).
+  Возраст участников: 12–15 лет. Заявки уходят организаторам в WhatsApp: +7 747 070-14-95.
 ======================================================================= -->
 
 <header id="header">
@@ -480,7 +486,7 @@ footer::before{content:"";position:absolute;top:-13px;left:0;right:0;height:26px
         </h1>
         <p class="hero-sub">ИИ + творчество + сторителлинг + выступления. От идеи — до своего проекта и презентации родителям.</p>
         <div class="hero-chips">
-          <span class="chip">🎒 Для детей и подростков</span>
+          <span class="chip">🎒 Для подростков 12–15 лет</span>
           <span class="chip">🗓 5 дней</span>
           <button class="chip" id="installChip" type="button" hidden>📲 Установить приложение</button>
         </div>
@@ -652,7 +658,7 @@ footer::before{content:"";position:absolute;top:-13px;left:0;right:0;height:26px
           </div>
           <div class="form-row">
             <div class="field"><label for="childName">Имя ребёнка <b>*</b></label><input id="childName" type="text" placeholder="Имя ребёнка"><p class="field-err" id="err-childName" aria-live="polite"></p></div>
-            <div class="field"><label for="childAge">Возраст ребёнка <b>*</b></label><input id="childAge" type="number" min="4" max="18" placeholder="Например, 11"><p class="field-err" id="err-childAge" aria-live="polite"></p></div>
+            <div class="field"><label for="childAge">Возраст ребёнка <b>*</b></label><input id="childAge" type="number" min="12" max="15" placeholder="Например, 13"><p class="field-err" id="err-childAge" aria-live="polite"></p></div>
           </div>
           <div class="form-row">
             <div class="field"><label for="city">Город <b>*</b></label><select id="city"><option value="">Выберите город</option></select><p class="field-err" id="err-city" aria-live="polite"></p></div>
@@ -676,6 +682,7 @@ footer::before{content:"";position:absolute;top:-13px;left:0;right:0;height:26px
   <div class="container footer-in">
     <img class="footer-logo" src="assets/logo.png" alt="Jedai">
     <p class="f-line">Неделя · 5 дней · Астана 10–14.08 → Алматы 17–21.08 · 85 000 ₸</p>
+    <a class="f-insta" href="https://www.instagram.com/jedai_academy/" target="_blank" rel="noopener" aria-label="Jedai Academy в Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.3"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>@jedai_academy</a>
     <p class="f-copy">© <span id="yearNow"></span> Jedai Academy</p>
   </div>
 </footer>
@@ -741,8 +748,8 @@ const CAMP_DATA = {
   ],
   /* TODO(подтвердить): роли и био менторов */
   mentors: [
-    { name:'Аружан Каримова', photo:IMG.aruzhan, role:'Ментор программы', note:'Опыт и специализация — уточняются' },
-    { name:'Ильяс Азелханов', photo:IMG.ilyas, role:'Ментор программы', note:'Опыт и специализация — уточняются' }
+    { name:'Аружан Каримова', photo:IMG.aruzhan, role:'Ментор программы', note:'Опыт и специализация — уточняются', insta:'aruzhan_jedai' },
+    { name:'Ильяс Азелханов', photo:IMG.ilyas, role:'Ментор программы', note:'Опыт и специализация — уточняются', insta:'elazart' }
   ],
   gallery: [
     { src:'assets/hero.jpg', cap:'Атмосфера', rot:'-2.5deg', alt:'Фото из лагеря' },
@@ -801,9 +808,9 @@ const CAMP_DATA = {
       text:'Огромная благодарность организаторам Байжану и его прекрасной супруге Айгуль, лучшим преподавателям за прекрасные 5 дней, которые подарили нашим детям! Столько знаний и умений, не хватает эмоций и слов передать вам нашу благодарность! Мы увидели сыночка Алишера с другой стороны, а он с удовольствием ходил в лагерь! Вы сделали благое дело! Пусть вам воздастся за это в миллион раз и во всем сопутствует удача, добро и хорошие люди! 🙏🙏' }
   ],
   faq: [
-    { q:'Для какого возраста лагерь?', a:'Для школьников. Точный возраст уточним при заявке.', d:1 },
+    { q:'Для какого возраста лагерь?', a:'Для подростков 12–15 лет.' },
     { q:'Нужен ли опыт работы с ИИ?', a:'Нет — начинаем с нуля, менторы помогают на практике.' },
-    { q:'Нужен ли свой ноутбук?', a:'Уточняется. Напишите в заявке, есть ли он — подскажем.', d:1 },
+    { q:'Нужен ли свой ноутбук?', a:'Можно ноутбук или планшет — подойдёт любой из них.' },
     { q:'На каком языке программа?', a:'Русский + практика выступлений на английском.' },
     { q:'Что ребёнок создаст за неделю?', a:'Цифровой проект и финальную презентацию перед родителями.' },
     { q:'Что входит в стоимость?', a:'Обеды, ИИ-сервисы, материалы, экскурсия в ИТ-компании, сертификат, карта талантов, финальная презентация.' },
@@ -833,6 +840,7 @@ function renderAll(){
         <h3>${m.name}</h3>
         <span class="role">${m.role}</span>
         <p class="mentor-note">${m.note}</p>
+        ${m.insta ? `<a class="mentor-insta" href="https://www.instagram.com/${m.insta}/" target="_blank" rel="noopener" aria-label="${m.name} в Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.3"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>@${m.insta}</a>` : ''}
       </div>
     </article>`).join('');
   $('#hsGallery').innerHTML = CAMP_DATA.gallery.map((g,i)=>`<button class="polaroid" type="button" style="--rot:${g.rot}" data-idx="${i}" aria-label="Открыть фото: ${g.cap}"><span class="ph"><img src="${g.src}" alt="${g.alt}" loading="lazy" decoding="async" data-gpx></span><figcaption>${g.cap}</figcaption></button>`).join('');
@@ -977,7 +985,23 @@ function initSpy(){
   }),{rootMargin:'-40% 0px -55% 0px'});
   [...Object.keys(mapD),...Object.keys(mapT)].forEach(id=>{ const s=document.getElementById(id); if(s) io.observe(s); });
 }
-function initTickers(){ ['#tickerTrack','#includesTicker'].forEach(s=>{ const t=$(s); if(t) t.innerHTML += t.innerHTML; }); }
+function initTickers(){
+  const lists = {
+    '#tickerTrack': ['ИИ-инструменты','Сторителлинг','Творчество','Выступления','Команда','Цифровой проект','English','Карта талантов'],
+    '#includesTicker': ['В цене: обеды','ИИ-сервисы','Материалы','Экскурсия в ИТ-компании','Сертификат','Карта талантов','Финальная презентация']
+  };
+  Object.keys(lists).forEach(id=>{
+    const t=$(id); if(!t) return;
+    t.innerHTML = lists[id].map(w=>`<span>${w}</span><i>✦</i>`).join('');
+    let guard=0;
+    while(t.scrollWidth < innerWidth*2 && guard++<6){ t.innerHTML += t.innerHTML; }
+  });
+  ['#mqRow1','#mqRow2'].forEach(id=>{
+    const t=$(id); if(!t) return;
+    let guard=0;
+    while(t.scrollWidth < innerWidth*2 && guard++<6){ t.innerHTML += t.innerHTML; }
+  });
+}
 function initHScroll(){
   let dragEl=null, sx=0, sl=0, moved=0;
   $$('.hscroll').forEach(el=>{
@@ -1063,7 +1087,7 @@ function validate(d){ const e={};
   if(d.parentName.length<2) e.parentName='Укажите ваше имя';
   const dig=d.phone.replace(/\D/g,''); if(dig.length<10||dig.length>12) e.phone='Формат: +7 (___) ___-__-__';
   if(d.childName.length<2) e.childName='Укажите имя ребёнка';
-  const a=parseInt(d.childAge,10); if(!d.childAge||isNaN(a)||a<4||a>18) e.childAge='Возраст от 4 до 18';
+  const a=parseInt(d.childAge,10); if(!d.childAge||isNaN(a)||a<12||a>15) e.childAge='Возраст от 12 до 15';
   if(!d.city) e.city='Выберите город'; if(!d.session) e.session='Выберите поток'; if(!d.consent) e.consent='Нужно согласие';
   return e; }
 function buildWaMessage(d){
