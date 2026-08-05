@@ -1,0 +1,18 @@
+{
+  "redirects": [
+    { "source": "/astana", "destination": "/", "permanent": true },
+    { "source": "/astana/", "destination": "/", "permanent": true },
+    { "source": "/almaty", "destination": "/", "permanent": true },
+    { "source": "/almaty/", "destination": "/", "permanent": true },
+    { "source": "/program", "destination": "/", "permanent": true },
+    { "source": "/program/", "destination": "/", "permanent": true },
+    { "source": "/price", "destination": "/", "permanent": true },
+    { "source": "/price/", "destination": "/", "permanent": true },
+    { "source": "/apply", "destination": "/", "permanent": true },
+    { "source": "/apply/", "destination": "/", "permanent": true },
+    { "source": "/app", "destination": "/", "permanent": true },
+    { "source": "/app/", "destination": "/", "permanent": true },
+    { "source": "/jedai", "destination": "/", "permanent": true },
+    { "source": "/jedai/", "destination": "/", "permanent": true }
+  ]
+}

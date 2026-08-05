@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /astana/
+Disallow: /almaty/
+Disallow: /program/
+Disallow: /price/
+Disallow: /apply/
+
+Sitemap: https://jedai-english-camp.vercel.app/sitemap.xml
