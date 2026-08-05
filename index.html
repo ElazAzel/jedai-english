@@ -488,7 +488,6 @@ footer::before{content:"";position:absolute;top:-13px;left:0;right:0;height:26px
         <div class="hero-chips">
           <span class="chip">🎒 Для подростков 12–15 лет</span>
           <span class="chip">🗓 5 дней</span>
-          <button class="chip" id="installChip" type="button" hidden>📲 Установить приложение</button>
         </div>
         <div class="tickets" id="heroSessions"></div>
         <div class="hero-actions">
@@ -1072,10 +1071,6 @@ function initPWA(){
   if ('serviceWorker' in navigator && (location.protocol==='https:'||location.hostname==='localhost')){
     addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
   }
-  let deferred=null;
-  addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); deferred=e; const c=$('#installChip'); if(c) c.hidden=false; });
-  const chip=$('#installChip');
-  if(chip) chip.addEventListener('click',()=>{ if(!deferred) return; deferred.prompt(); deferred=null; chip.hidden=true; });
 }
 
 /* ---------- ФОРМА → WHATSAPP ---------- */
