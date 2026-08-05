@@ -17,7 +17,6 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Jedai Camp">
-<link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="assets/logo.png">
 <link rel="apple-touch-icon" href="assets/logo.png">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
@@ -411,6 +410,15 @@ footer::before{content:"";position:absolute;top:-13px;left:0;right:0;height:26px
   .mini-polaroid{width:104px}
   .hs-btn{display:none}
   #cursorGlow{display:none}
+  .lightbox{padding:16px 12px;justify-content:flex-start;overflow-y:auto;gap:10px}
+  .lightbox img{max-width:min(82vw,940px);max-height:58vh}
+  .lb-frame{width:min(82vw,900px)}
+  .lb-frame.short{width:min(52vw,300px)}
+  .lb-btn{width:54px;height:54px;font-size:21px}
+  .lb-close{top:12px;right:12px}
+  .lb-prev{left:8px}
+  .lb-next{right:8px}
+  .lb-cap{font-size:21px}
 }
 @media (max-width:640px){
   .games-grid{grid-template-columns:repeat(2,1fr)}
@@ -755,27 +763,27 @@ const CAMP_DATA = {
     { name:'Ильяс Азелханов', photo:IMG.ilyas, role:'Ментор программы', note:'Опыт и специализация - уточняются', insta:'elazart' }
   ],
   gallery: [
-    { src:'assets/gallery/g02.jpg', cap:'Момент', rot:'2deg', alt:'Фото из лагеря' },
-    { src:'assets/gallery/g03.jpg', cap:'Команда', rot:'-2deg', alt:'Фото из лагеря' },
-    { src:'assets/gallery/g04.jpg', cap:'Момент', rot:'2.5deg', alt:'Фото из лагеря' },
-    { src:'assets/gallery/g05.jpg', cap:'День', rot:'-2deg', alt:'Фото из лагеря' },
-    { src:'assets/gallery/g06.jpg', cap:'Работа', rot:'2deg', alt:'Фото из лагеря' },
+    { src:'assets/gallery/g01.jpg', cap:'Момент', rot:'-2deg', alt:'Фото из лагеря' },
+    { src:'assets/gallery/g02.jpg', cap:'Команда', rot:'2deg', alt:'Фото из лагеря' },
+    { src:'assets/gallery/g03.jpg', cap:'День', rot:'-2.5deg', alt:'Фото из лагеря' },
+    { src:'assets/gallery/g04.jpg', cap:'Работа', rot:'2.5deg', alt:'Фото из лагеря' },
+    { src:'assets/gallery/g05.jpg', cap:'Финал', rot:'-2deg', alt:'Фото из лагеря' },
+    { src:'assets/gallery/g06.jpg', cap:'Атмосфера', rot:'2deg', alt:'Фото из лагеря' },
     { src:'assets/gallery/g07.jpg', cap:'Момент', rot:'-2.5deg', alt:'Фото из лагеря' },
-    { src:'assets/gallery/g08.jpg', cap:'Команда', rot:'2deg', alt:'Фото из лагеря' },
+    { src:'assets/gallery/g08.jpg', cap:'Команда', rot:'2.5deg', alt:'Фото из лагеря' },
     { src:'assets/gallery/g09.jpg', cap:'День', rot:'-2deg', alt:'Фото из лагеря' },
-    { src:'assets/gallery/g10.jpg', cap:'Момент', rot:'2deg', alt:'Фото из лагеря' },
-    { src:'assets/gallery/g11.jpg', cap:'Работа', rot:'-2deg', alt:'Фото из лагеря' },
-    { src:'assets/gallery/g12.jpg', cap:'Момент', rot:'2deg', alt:'Фото из лагеря' },
-    { src:'assets/gallery/g13.jpg', cap:'Команда', rot:'-2.5deg', alt:'Фото из лагеря' },
-    { src:'assets/gallery/g14.jpg', cap:'День', rot:'2deg', alt:'Фото из лагеря' },
-    { src:'assets/gallery/g15.jpg', cap:'Момент', rot:'-2deg', alt:'Фото из лагеря' },
-    { src:'assets/gallery/g16.jpg', cap:'Работа', rot:'2deg', alt:'Фото из лагеря' },
-    { src:'assets/gallery/g17.jpg', cap:'Момент', rot:'-2deg', alt:'Фото из лагеря' },
-    { src:'assets/gallery/g18.jpg', cap:'Команда', rot:'2.5deg', alt:'Фото из лагеря' },
-    { src:'assets/gallery/g19.jpg', cap:'День', rot:'-2deg', alt:'Фото из лагеря' },
-    { src:'assets/gallery/g20.jpg', cap:'Момент', rot:'2deg', alt:'Фото из лагеря' },
-    { src:'assets/gallery/g21.jpg', cap:'Работа', rot:'-2deg', alt:'Фото из лагеря' },
-    { src:'assets/gallery/g22.jpg', cap:'Финал', rot:'2deg', alt:'Фото из лагеря' }
+    { src:'assets/gallery/g10.jpg', cap:'Работа', rot:'2deg', alt:'Фото из лагеря' },
+    { src:'assets/gallery/g11.jpg', cap:'Финал', rot:'-2.5deg', alt:'Фото из лагеря' },
+    { src:'assets/gallery/g12.jpg', cap:'Атмосфера', rot:'2.5deg', alt:'Фото из лагеря' },
+    { src:'assets/gallery/g13.jpg', cap:'Момент', rot:'-2deg', alt:'Фото из лагеря' },
+    { src:'assets/gallery/g14.jpg', cap:'Команда', rot:'2deg', alt:'Фото из лагеря' },
+    { src:'assets/gallery/g15.jpg', cap:'День', rot:'-2.5deg', alt:'Фото из лагеря' },
+    { src:'assets/gallery/g16.jpg', cap:'Работа', rot:'2.5deg', alt:'Фото из лагеря' },
+    { src:'assets/gallery/g17.jpg', cap:'Финал', rot:'-2deg', alt:'Фото из лагеря' },
+    { src:'assets/gallery/g18.jpg', cap:'Атмосфера', rot:'2deg', alt:'Фото из лагеря' },
+    { src:'assets/gallery/g19.jpg', cap:'Момент', rot:'-2.5deg', alt:'Фото из лагеря' },
+    { src:'assets/gallery/g20.jpg', cap:'Команда', rot:'2.5deg', alt:'Фото из лагеря' },
+    { src:'assets/gallery/g21.jpg', cap:'День', rot:'-2deg', alt:'Фото из лагеря' },
   ],
   games: [
     { name:'Cyber Hack', type:'Игра-кликер', ico:'👾', url:'https://cyber-hack-idle-game.lovable.app' },
@@ -1081,8 +1089,13 @@ function initFloating(){
   top.addEventListener('click',()=>scrollTo({top:0,behavior:reduced?'auto':'smooth'}));
 }
 function initPWA(){
-  if ('serviceWorker' in navigator && (location.protocol==='https:'||location.hostname==='localhost')){
-    addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
+  if (location.protocol==='http:'||location.protocol==='https:'){
+    const l=document.createElement('link');
+    l.rel='manifest'; l.href='manifest.webmanifest';
+    document.head.appendChild(l);
+    if ('serviceWorker' in navigator){
+      addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
+    }
   }
 }
 
