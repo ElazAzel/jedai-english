@@ -426,12 +426,11 @@ body.ready .lm-in{transform:translateY(0)}
 
 #gallery{background:var(--paper2)}
 #hsGallery{grid-auto-columns:clamp(240px,66vw,360px)}
-.polaroid{background:#fff;padding:11px 11px 14px;box-shadow:0 14px 30px -14px rgba(34,37,74,.35);transform:rotate(var(--rot));transition:transform .3s,box-shadow .3s;position:relative;border:0;cursor:zoom-in;text-align:left}
+.polaroid{background:#fff;padding:11px;box-shadow:0 14px 30px -14px rgba(34,37,74,.35);transform:rotate(var(--rot));transition:transform .3s,box-shadow .3s;position:relative;border:0;cursor:zoom-in;text-align:left}
 .polaroid::before{content:"";position:absolute;top:-11px;left:50%;transform:translateX(-50%) rotate(-2deg);width:80px;height:22px;background:rgba(124,58,237,.6);border-radius:2px;z-index:2}
 .polaroid:hover{transform:rotate(0deg) translateY(-6px);box-shadow:0 24px 42px -16px rgba(34,37,74,.45);z-index:2}
 .polaroid .ph{overflow:hidden;aspect-ratio:1/1;display:block}
 .polaroid img{width:100%;height:100%;object-fit:cover;will-change:transform}
-.polaroid figcaption{font-family:var(--fh);font-size:20px;font-weight:700;color:var(--ink2);padding-top:10px;text-align:center}
 
 .works-sub{font-family:var(--fd);font-weight:700;font-size:15px;margin:30px 0 16px;display:flex;align-items:center;gap:10px}
 .works-sub:first-of-type{margin-top:0}
@@ -1043,7 +1042,7 @@ function renderAll(){
         ${m.insta ? `<a class="mentor-insta" href="https://www.instagram.com/${m.insta}/" target="_blank" rel="noopener" aria-label="${m.name} в Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.3"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>@${m.insta}</a>` : ''}
       </div>
     </article>`).join('');
-  $('#hsGallery').innerHTML = CAMP_DATA.gallery.map((g,i)=>`<button class="polaroid" type="button" style="--rot:${g.rot}" data-idx="${i}" aria-label="Открыть фото: ${g.cap}"><span class="ph"><img src="${g.src}" alt="${g.alt}" loading="lazy" decoding="async" data-gpx></span><figcaption>${g.cap}</figcaption></button>`).join('');
+  $('#hsGallery').innerHTML = CAMP_DATA.gallery.map((g,i)=>`<button class="polaroid" type="button" style="--rot:${g.rot}" data-idx="${i}" aria-label="Открыть фото ${i+1} из ${CAMP_DATA.gallery.length}"><span class="ph"><img src="${g.src}" alt="${g.alt}" loading="lazy" decoding="async" data-gpx></span></button>`).join('');
   $('#gamesGrid').innerHTML = CAMP_DATA.games.map((g,i)=>`<button class="game-card tilt" type="button" data-game="${i}" aria-label="Открыть: ${g.name}"><span class="g-ico" aria-hidden="true">${g.ico}</span><h3>${g.name}</h3><span class="g-type">${g.type}</span><span class="g-open">Смотреть</span></button>`).join('');
   $('#videoGrid').innerHTML = CAMP_DATA.videos.map((v,i)=>`<button class="video-tile" type="button" data-vid="${i}" aria-label="Смотреть: ${v.title}"><img src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" alt="${v.title} - превью" loading="lazy" decoding="async"><span class="v-play" aria-hidden="true">▶</span><span class="v-tag">${v.short?'YouTube Shorts':'YouTube'}</span></button>`).join('');
   $('#hsReviews').innerHTML = CAMP_DATA.reviews.map((r,i)=>`
