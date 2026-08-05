@@ -1,0 +1,17 @@
+{
+  "name": "Jedai Camp — AI Creative & Storytelling Camp",
+  "short_name": "Jedai Camp",
+  "description": "Недельный лагерь для детей: ИИ, творчество, сторителлинг, выступления. Астана 10–14.08, Алматы 17–21.08. 85 000 ₸, всё включено.",
+  "lang": "ru",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FBF5EA",
+  "theme_color": "#22254A",
+  "icons": [
+    { "src": "assets/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
